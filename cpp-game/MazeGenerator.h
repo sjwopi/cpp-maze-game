@@ -6,5 +6,5 @@
 class MazeGenerator
 {
 public:
-	std::shared_ptr<std::vector<std::vector<char>>> generate(unsigned width, unsigned height);
+	std::vector<std::vector<char>> generateBase(int difficulty);
 };
