@@ -90,6 +90,7 @@ std::vector<std::vector<char>> Maze::generate(int difficulty)
 		maze[maze.size() - 2][i] = '#';
 	}
 	maze[maze.size() - 2][maze.size() - 3] = '$';
+
 	return maze;
 }
 void Maze::print(const std::vector<std::vector<char>> maze)
