@@ -1,7 +1,6 @@
 #include <SFML/Graphics.hpp>
-#include "Menu.h"
+#include "Form.h"
 #include "Statistics.h"
-#include "Login.h"
 #include "Build.h"
 
 
@@ -9,11 +8,9 @@ int main() {
     bool flag = true;
 
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "Game");
-    Menu menu(window.getSize().x, window.getSize().y);
-    Login login(window.getSize().x, window.getSize().y);
+    Form form(window.getSize().x, window.getSize().y, window);
     Statistics statistics;
-
-    Build build(window);
+    Build build(form, statistics, window);
 
     while (window.isOpen())
     {
@@ -29,23 +26,22 @@ int main() {
 
             if (event.type == sf::Event::MouseButtonPressed) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
-                    int btnNumber = menu.checkPressed(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y);
+                    int btnNumber = form.checkPressed(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y);
                     if (btnNumber == 1) {
                         flag = 1;
-                        build.login(window, menu, login, statistics);
+                        build.login();
                     }
                     else if (btnNumber == 2) {
                         flag = 1;
-                        build.statistics(window, menu, login, statistics);
+                        build.statistics();
                     }
                 }
             }
         }
 
         window.clear();
-
         if (flag) {
-            build.menu(menu, login, statistics);
+           build.menu();
         }
 
         window.display();

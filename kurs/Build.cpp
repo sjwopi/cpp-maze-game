@@ -151,44 +151,45 @@ void Build::level(float& timeS, UserInfo& data)
 
 }
 
-UserInfo Build::game(sf::RenderWindow& window, Menu menu, Login login, Statistics statistics, std::string nick) {
+UserInfo Build::game(std::string nick) {
     float timeS = 0.f;
     UserInfo data(nick, 0, 0, 0, " ");
     level(timeS, data);
     data.countGame += 1;
     data.time = std::to_string((int)timeS);
-    this->menu(menu, login, statistics);
+    this->menu();
     return data;
 
 };
 
-int Build::login(sf::RenderWindow& window, Menu menu, Login login, Statistics statistics) {
+int Build::login() {
     bool flag = false;
     std::string nick = "user";
 
-    while (window.isOpen())
+    while ((*window).isOpen())
     {
         sf::Event event;
-        while (window.pollEvent(event))
+        while ((*window).pollEvent(event))
         {
             if (event.type == sf::Event::Closed) {
-                window.close();
+                (*window).close();
             }
 
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-                this->menu(menu, login, statistics);
+                this->menu();
                 return 1;
             }
             if (event.type == sf::Event::MouseButtonPressed) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
 
-                    int btnNumber = login.checkPressed(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y);
+                    int btnNumber = form.checkPressed(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y);
                     if (btnNumber == 1) {
+                        nick = "";
                         flag = true;
                     }
                     if (btnNumber == 2) {
-                        UserInfo data = this->game(window, menu, login, statistics, nick);
-                        statistics.setInfo(data.nick, data.countWin, data.countGame, data.countDeaths, data.time);
+                        UserInfo data = this->game(nick);
+                        statisticsView.setInfo(data.nick, data.countWin, data.countGame, data.countDeaths, data.time);
                         flag = 1;
                     }
                 }
@@ -206,39 +207,39 @@ int Build::login(sf::RenderWindow& window, Menu menu, Login login, Statistics st
                 }
             }
         }
-        window.clear();
-        login.draw(window, nick);
-        window.display();
+        (*window).clear();
+        form.drawLogin(nick);
+        (*window).display();
     }
     return 0;
 }
 
-int Build::menu(/*sf::RenderWindow& window, */Menu menu, Login login, Statistics statistics) {
+int Build::menu() {
     (*window).setView((*window).getDefaultView());
     (*window).clear();
-    menu.draw(*window);
+    form.drawMenu();
     return 0;
 }
 
-int Build::statistics(sf::RenderWindow& window, Menu menu, Login login, Statistics statistics) {
+int Build::statistics() {
 
-    while (window.isOpen())
+    while ((*window).isOpen())
     {
         sf::Event event;
-        while (window.pollEvent(event))
+        while ((*window).pollEvent(event))
         {
             if (event.type == sf::Event::Closed) {
-                window.close();
+                (*window).close();
             }
 
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-                this->menu(menu, login, statistics);
+                form.drawMenu();
                 return 1;
             }
         }
-        window.clear();
-        statistics.draw(window);
-        window.display();
+        (*window).clear();
+        statisticsView.draw(*window);
+        (*window).display();
     }
     return 0;
 }
