@@ -14,10 +14,11 @@ private:
 	Form form;
 	Statistics statisticsView;
 public:
-	Build(Form form, Statistics statistics, sf::RenderWindow& window) :window(&window), form(form), statisticsView(statistics) {};
+	Build(Form form, Statistics statistics, sf::RenderWindow& window) :window(&window), form(form), statisticsView(statistics), difficulty(1) {};
 	UserInfo game(std::string nick);
 	int menu();
 	int login();
+	int settings();
 	int statistics();
 };
 

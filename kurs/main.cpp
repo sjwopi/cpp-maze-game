@@ -35,11 +35,16 @@ int main() {
                         flag = 1;
                         build.statistics();
                     }
+                    else if (btnNumber == 3) {
+                        flag = 1;
+                        build.settings();
+                    }
                 }
             }
         }
 
         window.clear();
+
         if (flag) {
            build.menu();
         }

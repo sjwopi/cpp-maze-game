@@ -10,7 +10,7 @@ private:
 	sf::Font font;
 	
 	sf::RectangleShape btn[3];
-	sf::Text text[3];
+	sf::Text text[4];
 public:
 	Form(float width, float height, sf::RenderWindow& window);
 

@@ -7,7 +7,7 @@
 
 bool Build::GAME(float& timeS, UserInfo& data) {
     srand(time(NULL));
-    allObjectsInTheGame gameObject(*window, 2160, 1400, 8, 8, 10, 10, 3, 5);
+    allObjectsInTheGame gameObject(*window, 1920, 1080, 8*difficulty, 8 * difficulty, 10 * difficulty, 10 * difficulty, 3 * difficulty, 5 * difficulty);
     sf::Vector2i pixelPos = sf::Mouse::getPosition(*window);
     sf::Vector2f pos = window->mapPixelToCoords(pixelPos);
     sf::Clock clock;
@@ -218,6 +218,44 @@ int Build::menu() {
     (*window).setView((*window).getDefaultView());
     (*window).clear();
     form.drawMenu();
+    return 0;
+}
+
+int Build::settings() {
+    (*window).setView((*window).getDefaultView());
+    (*window).clear();
+    while ((*window).isOpen())
+    {
+        sf::Event event;
+        while ((*window).pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed) {
+                (*window).close();
+            }
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+                this->menu();
+                return 1;
+            }
+            if (event.type == sf::Event::MouseButtonPressed) {
+                if (event.mouseButton.button == sf::Mouse::Left) {
+
+                    int btnNumber = form.checkPressed(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y);
+                    if (btnNumber == 1) {
+                        difficulty = 1;
+                    }
+                    if (btnNumber == 2) {
+                        difficulty = 2;
+                    }
+                    if (btnNumber == 3) {
+                        difficulty = 3;
+                    }
+                }
+            }
+        }
+        (*window).clear();
+        form.drawSettings();
+        (*window).display();
+    }
     return 0;
 }
 
