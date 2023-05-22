@@ -16,6 +16,7 @@ public:
 
 	void drawMenu();
 	void drawLogin(std::string nick);
-	void drawSettings();
+	void drawEndLevel(bool typeEnd);
+	void drawSettings(int difficult);
 	int checkPressed(double x, double y);
 };

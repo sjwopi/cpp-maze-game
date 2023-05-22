@@ -6,6 +6,7 @@ statusBar::statusBar(sf::RenderWindow& window, std::string nameTextureHealthIcon
     weaponText.setFont(font);
     healthText.setFont(font);
     shieldHealthText.setFont(font);
+    levelText.setFont(font);
 
     weaponText.setCharacterSize(10);
     weaponText.setStyle(sf::Text::Bold);
@@ -18,6 +19,10 @@ statusBar::statusBar(sf::RenderWindow& window, std::string nameTextureHealthIcon
     shieldHealthText.setCharacterSize(10);
     shieldHealthText.setStyle(sf::Text::Bold);
     shieldHealthText.setFillColor(sf::Color::White);
+
+    levelText.setCharacterSize(10);
+    levelText.setStyle(sf::Text::Bold);
+    levelText.setFillColor(sf::Color::White);
 
     textureHealthIcon.loadFromFile(nameTextureHealthIcon);
     healthIcon.setTexture(textureHealthIcon);
@@ -48,8 +53,10 @@ void statusBar::draw(sf::RenderWindow& window)
     healthIcon.setPosition(tempX + (sizeWindow.x / 2) - 120, tempY - (sizeWindow.y / 2) + 7);
     healthText.setPosition(tempX + (sizeWindow.x / 2) - 100, tempY - (sizeWindow.y / 2) + 7);
 
-    shieldIcon.setPosition(tempX + (sizeWindow.x / 2) - 150, tempY - (sizeWindow.y / 2) + 2);
-    shieldHealthText.setPosition(tempX + (sizeWindow.x / 2) - 144, tempY - (sizeWindow.y / 2) + 26);
+    shieldIcon.setPosition(tempX + (sizeWindow.x / 2) - 168, tempY - (sizeWindow.y / 2) + 7);
+    shieldHealthText.setPosition(tempX + (sizeWindow.x / 2) - 146, tempY - (sizeWindow.y / 2) + 7);
+
+    levelText.setPosition(tempX - (sizeWindow.x / 2) + 20 , tempY - (sizeWindow.y / 2) + 7);
     if (isShield) {
         window.draw(shieldIcon);
         window.draw(shieldHealthText);
@@ -60,6 +67,8 @@ void statusBar::draw(sf::RenderWindow& window)
 
     window.draw(weaponIcon);
     window.draw(weaponText);
+
+    window.draw(levelText);
 }
 
 void statusBar::update(Player& player)

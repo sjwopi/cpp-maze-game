@@ -1,40 +1,42 @@
 #define _USE_MATH_DEFINES
-#include "Build.h"
 #include <SFML/Graphics.hpp>
 #include <ctime>
 #include <cmath>
 #include "allObjectsInTheGame.h"
+#include "Build.h"
 
-bool Build::GAME(float& timeS, UserInfo& data) {
+bool Build::game(float& timeS, UserInfo& data, Player& hero) {
     srand(time(NULL));
-    allObjectsInTheGame gameObject(*window, 1920, 1080, 8*difficulty, 8 * difficulty, 10 * difficulty, 10 * difficulty, 3 * difficulty, 5 * difficulty);
+    window->setFramerateLimit(30);
+    ++lv;
+    allObjectsInTheGame gameObject;
+    gameObject.ñreate(*window, 2160, 1440, (5 * difficulty) + lv, (5 * difficulty) + lv, (5 * difficulty) + lv, (6 * difficulty) + lv, (4 * difficulty) + lv, (4 * difficulty) + lv);
+    std::vector<GameObject> Walls = gameObject.getMap()->getWalls();
+    gameObject.getStatusbar()->setLevel(lv);
+    hero.setPosition(gameObject.getMap()->getRandomCenterRooms());
+    hero.setWeapon(gameObject.getGun());
     sf::Vector2i pixelPos = sf::Mouse::getPosition(*window);
     sf::Vector2f pos = window->mapPixelToCoords(pixelPos);
     sf::Clock clock;
     sf::View view;
-    view.setSize(500, 250);;
-    float tempX = gameObject.getPlayer()->getPosition().x, tempY = gameObject.getPlayer()->getPosition().y;
-    if (gameObject.getPlayer()->getPosition().x < 250)
+    view.setSize(500, 250);
+    float tempX = hero.getPosition().x, tempY = hero.getPosition().y;
+    if (hero.getPosition().x < 250)
         tempX = 250;
-    if (gameObject.getPlayer()->getPosition().y < 125)
+    if (hero.getPosition().y < 125)
         tempY = 125;
-    if (gameObject.getPlayer()->getPosition().y > 1275)
+    if (hero.getPosition().y > 1275)
         tempY = 1275;
-    if (gameObject.getPlayer()->getPosition().x > 1910)
+    if (hero.getPosition().x > 1910)
         tempX = 1910;
     view.setCenter(tempX, tempY);
-    sf::Texture portal;
-    portal.loadFromFile("image/portal.png");
-
-    sf::CircleShape shape1;
-    shape1.setTexture(&portal);
-    shape1.setRadius(20);
-    shape1.setOrigin(20, 20);
-    shape1.setPosition(gameObject.getMap()->getRandomCenterRooms());
-
+    if (lv == 6) {
+        return false;
+    }
     sf::Vector2f aimDir;
     sf::Vector2f aimDirNorm;
     sf::Vector2f Player;
+    gameObject.getPortal()->setPosition(gameObject.getMap()->getRandomCenterRooms());
 
     while (window->isOpen())
     {
@@ -57,109 +59,115 @@ bool Build::GAME(float& timeS, UserInfo& data) {
             }
         }
         window->clear();
-        gameObject.getPlayer()->Rotation(pos);
+        hero.Rotation(pos);
 
         gameObject.getMap()->draw(*window);
-
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-            gameObject.getPlayer()->Play("Left", 0.5, time, gameObject.getMap()->GetWalls(), view);
+            hero.play("Left", 0.5, time, Walls, view);
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-            gameObject.getPlayer()->Play("Right", 0.5, time, gameObject.getMap()->GetWalls(), view);
+            hero.play("Right", 0.5, time, Walls, view);
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-            gameObject.getPlayer()->Play("Up", 0.5, time, gameObject.getMap()->GetWalls(), view);
+            hero.play("Up", 0.5, time, Walls, view);
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-            gameObject.getPlayer()->Play("Down", 0.5, time, gameObject.getMap()->GetWalls(), view);
+            hero.play("Down", 0.5, time, Walls, view);
         }
 
-        Player = sf::Vector2f(gameObject.getPlayer()->getPosition());
+        Player = sf::Vector2f(hero.getPosition());
         aimDir = pos - Player;
         aimDirNorm = aimDir / (float)sqrt(pow(aimDir.x, 2) + pow(aimDir.y, 2));
 
-        float Lx = sin(((gameObject.getPlayer()->getRotation()) * M_PI) / 180) * 17;
-        float Ly = cos(((gameObject.getPlayer()->getRotation()) * M_PI) / 180) * 17;
+        float Lx = sin(((hero.getRotation()) * M_PI) / 180) * 17;
+        float Ly = cos(((hero.getRotation()) * M_PI) / 180) * 17;
 
         if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-            gameObject.getPlayer()->shoot(time, aimDirNorm, sf::Vector2f(Player.x - Lx - 0.01, Player.y + Ly + 0.01));
+            hero.shoot(time, aimDirNorm, sf::Vector2f(Player.x - Lx - 0.01, Player.y + Ly + 0.01));
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::R)) {
-            gameObject.getPlayer()->reload();
+            hero.reload();
         }
         for (auto& i : gameObject.getAllBonuses()) {
             if (!i->isTaken()) {
                 i->draw(*window);
-                if (gameObject.getPlayer()->intersects(i->getGlobalBounds())) {
+                if (hero.intersects(i->getGlobalBounds())) {
                     if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
-                        i->apply(*(gameObject.getPlayer()));
+                        i->apply(hero);
                     }
                 }
             }
         }
         gameObject.getWeaponBonus()->draw(*window);
         gameObject.getWeaponBonus()->update(time);
-        if (gameObject.getPlayer()->intersects(gameObject.getWeaponBonus()->getGlobalBounds())) {
+        if (hero.intersects(gameObject.getWeaponBonus()->getGlobalBounds())) {
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
-                gameObject.getWeaponBonus()->apply(*(gameObject.getPlayer()));
-                gameObject.getStatusbar()->setNameTextureWeaponIcon(gameObject.getPlayer()->getPathWeapon());
+                gameObject.getWeaponBonus()->apply(hero);
+                gameObject.getStatusbar()->setNameTextureWeaponIcon(hero.getPathWeapon());
             }
         }
         for (auto& i : gameObject.getTurels()) {
             i->fire(Player, sf::Vector2f(i->getPosition().x, i->getPosition().y));
-            i->update(time, *(gameObject.getPlayer()));
+            i->update(time, hero);
             i->draw(*window);
         }
         for (auto& i : gameObject.getGhostspawns()) {
-            i->update(time, *(gameObject.getPlayer()));
+            i->update(time, hero);
             i->draw(*window);
             for (auto& j : i->getGhosts()) {
                 gameObject.getGhosts().push_back(&j);
             }
         }
-        gameObject.getPlayer()->updatePlayer(time, gameObject.getCharacters());
-        gameObject.getPlayer()->updatePlayer(time, gameObject.getGhosts());
-        gameObject.getPlayer()->renderShoot(*window);
+        hero.updatePlayer(time, gameObject.getCharacters());
+        hero.updatePlayer(time, gameObject.getGhosts());
+        hero.renderShoot(*window);
         gameObject.getGhosts().clear();
 
-        gameObject.getStatusbar()->update(*(gameObject.getPlayer()));
+        gameObject.getStatusbar()->update(hero);
         gameObject.getStatusbar()->draw(*window);
 
         for (auto& mine : gameObject.getMines()) {
-            mine->explosion(time, *(gameObject.getPlayer()));
+            mine->explosion(time, hero);
             mine->draw(*window);
         }
 
-        if (gameObject.getPlayer()->getHealth() <= 0) {
-            data.countDeaths += 1;
+        if (hero.getHealth() <= 0) {
             return false;
         }
-        if (gameObject.getPlayer()->intersects(shape1.getGlobalBounds())) {
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
-                return true;
-            }
-        }
-        window->draw(shape1);
-        gameObject.getPlayer()->draw(*window);
+        if (gameObject.getPortal()->nextLevel(hero))
+            return true;
+        gameObject.getPortal()->draw(*window);
+        hero.draw(*window);
         window->setView(view);
         window->display();
     }
 };
-void Build::level(float& timeS, UserInfo& data)
-{
-    if (GAME(timeS, data)) level(timeS, data);
 
+void Build::level(float& timeS, UserInfo & data,Player& hero)
+{
+    if (game(timeS, data, hero)) {
+        level(timeS, data, hero);
+    }
 }
 
-UserInfo Build::game(std::string nick) {
+UserInfo Build::dataPlayer(std::string nick) {
     float timeS = 0.f;
     UserInfo data(nick, 0, 0, 0, " ");
-    level(timeS, data);
-    data.countGame += 1;
+    Player hero(sf::Vector2f(0, 0), sf::Vector2f(23, 45), "image/soldat.png");
+    level(timeS, data, hero);
+    ++data.countGame;
     data.time = std::to_string((int)timeS);
-    this->menu();
+    if (lv == 6) {
+        lv = 0;
+        ++data.countWin;
+        endGame(1);
+    }
+    else {
+        lv = 0;
+        ++data.countDeaths;
+        endGame(0);
+    }
     return data;
-
 };
 
 int Build::login() {
@@ -181,14 +189,15 @@ int Build::login() {
             }
             if (event.type == sf::Event::MouseButtonPressed) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
-
-                    int btnNumber = form.checkPressed(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y);
+                    sf::Vector2i pixelPos = sf::Mouse::getPosition(*window);
+                    sf::Vector2f pos = window->mapPixelToCoords(pixelPos);
+                    int btnNumber = form.checkPressed(pos.x, pos.y);
                     if (btnNumber == 1) {
                         nick = "";
                         flag = true;
                     }
                     if (btnNumber == 2) {
-                        UserInfo data = this->game(nick);
+                        UserInfo data = this->dataPlayer(nick);
                         statisticsView.setInfo(data.nick, data.countWin, data.countGame, data.countDeaths, data.time);
                         flag = 1;
                     }
@@ -238,29 +247,20 @@ int Build::settings() {
             }
             if (event.type == sf::Event::MouseButtonPressed) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
-
-                    int btnNumber = form.checkPressed(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y);
-                    if (btnNumber == 1) {
-                        difficulty = 1;
-                    }
-                    if (btnNumber == 2) {
-                        difficulty = 2;
-                    }
-                    if (btnNumber == 3) {
-                        difficulty = 3;
-                    }
+                    sf::Vector2i pixelPos = sf::Mouse::getPosition(*window);
+                    sf::Vector2f pos = window->mapPixelToCoords(pixelPos);
+                    difficulty = form.checkPressed(pos.x, pos.y);
                 }
             }
         }
         (*window).clear();
-        form.drawSettings();
+        form.drawSettings(difficulty);
         (*window).display();
     }
     return 0;
 }
 
 int Build::statistics() {
-
     while ((*window).isOpen())
     {
         sf::Event event;
@@ -281,3 +281,38 @@ int Build::statistics() {
     }
     return 0;
 }
+
+int Build::endGame(bool typeEnd) {
+    (*window).setView((*window).getDefaultView());
+    (*window).clear();
+    while ((*window).isOpen())
+    {
+        sf::Event event;
+        while ((*window).pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed) {
+                (*window).close();
+            }
+
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+                this->menu();
+                return 1;
+            }
+            if (event.type == sf::Event::MouseButtonPressed) {
+                if (event.mouseButton.button == sf::Mouse::Left) {
+                    sf::Vector2i pixelPos = sf::Mouse::getPosition(*window);
+                    sf::Vector2f pos = window->mapPixelToCoords(pixelPos);
+                    if (form.checkPressed(pos.x, pos.y) == 3) {
+                        this->menu();
+                        return 1;
+                    }
+                }
+            }
+        }
+        (*window).clear();
+        form.drawEndLevel(typeEnd);
+        (*window).display();
+    }
+    return 0;
+}
+

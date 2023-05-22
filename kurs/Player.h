@@ -7,7 +7,7 @@
 #include "Character.h"
 #include "Gun.h"
 
-class Player :public Character {
+class Player :public Character{
 private:
 	Weapon* weapon = nullptr;
 	bool haveShield = false;
@@ -17,12 +17,12 @@ private:
 	void Move(std::string dir, float speed, float time);
 	bool flag = true;
 public:
-	Player(float x, float y, float w, float h, std::string name) : Character(x, y, w, h) {
+	Player(float x, float y, float w, float h, std::string name) : Character(x, y, w, h){
 		setSpriteLoadFromFile(name);
 		setColor(170, 170, 170);
 		sprite.setOrigin(12, 14);
 	}
-	Player(sf::Vector2f position, sf::Vector2f size, std::string name) :Character(position, size) {
+	Player(sf::Vector2f position, sf::Vector2f size,std::string name) :Character(position, size) {
 		setSpriteLoadFromFile(name);
 		setColor(170, 170, 170);
 		sprite.setOrigin(12, 14);
@@ -38,7 +38,7 @@ public:
 	bool getHaveShield()const { return haveShield; }
 	int getHealthShield()const { return healthShield; }
 
-	void Play(std::string dir, float speed, float time, std::vector<GameObject> Walls, sf::View& view);
+	void play(std::string dir, float speed, float time, std::vector<GameObject> Walls,sf::View& view);
 	void Rotation(sf::Vector2f pos);
 	void setShield(bool haveShield) { this->haveShield = haveShield; healthShield = 100; }
 	void reduceHealthShield(int damage) { healthShield -= damage; }
@@ -47,15 +47,13 @@ public:
 
 	bool intersects(const sf::FloatRect globalBounds)const { return sprite.getGlobalBounds().intersects(globalBounds); }
 
-	void shoot(float time, sf::Vector2f direction, sf::Vector2f coordinatePlayer) {
-		weapon->fire(direction, coordinatePlayer);
+	void shoot(float time,sf::Vector2f direction,sf::Vector2f coordinatePlayer) {
+		weapon->fire(direction,coordinatePlayer);
 	}
-	void updatePlayer(float time, std::vector<Character*> characters);
+	void updatePlayer(float time, std::vector<Character*>& characters);
 	void renderShoot(sf::RenderWindow& window) {
 		weapon->render(window);
 	}
 	void reload() { weapon->reload(); }
 	void draw(sf::RenderWindow& window) { window.draw(sprite); }
-
-	//~Player() { delete weapon; }
 };

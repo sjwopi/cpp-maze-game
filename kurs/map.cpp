@@ -1,18 +1,17 @@
 #include "map.h"
-int random1(int min, int max) {
+int randomIntforMap(int min, int max) {
     return (min + (rand() % (max - min + 1)));
 }
-
 void Map::create_halls(GameObject& const l, GameObject& const r)
 {
     int Rarr = 20;
     int Rarr1 = 50;
     std::pair<int, int> point1;
-    point1.first = random1(l.getPosition().x + Rarr, (l.getPosition().x + l.getSize().x) - Rarr1);
-    point1.second = random1(l.getPosition().y + Rarr, (l.getPosition().y + l.getSize().y) - Rarr1);
+    point1.first = randomIntforMap(l.getPosition().x + Rarr, (l.getPosition().x + l.getSize().x) - Rarr1);
+    point1.second = randomIntforMap(l.getPosition().y + Rarr, (l.getPosition().y + l.getSize().y) - Rarr1);
     std::pair<int, int> point2;
-    point2.first = random1(r.getPosition().x + Rarr, (r.getPosition().x + r.getSize().x) - Rarr1);
-    point2.second = random1(r.getPosition().y + Rarr, (r.getPosition().y + r.getSize().y) - Rarr1);
+    point2.first = randomIntforMap(r.getPosition().x + Rarr, (r.getPosition().x + r.getSize().x) - Rarr1);
+    point2.second = randomIntforMap(r.getPosition().y + Rarr, (r.getPosition().y + r.getSize().y) - Rarr1);
     int w = point2.first - point1.first;
     int h = point2.second - point1.second;
     GameObject hall;
@@ -148,7 +147,7 @@ void Map::create_Map(int width, int height)
         {
             if ((!leafs[i].leftChild && !leafs[i].rightChild))
             {
-                if (leafs[i].getSize().x > leafs[i].Get_MAX_LEAF_SIZE() || leafs[i].getSize().y > leafs[i].Get_MAX_LEAF_SIZE() || (0, 1 * rand() % 11) > 0.25)
+                if (leafs[i].getSize().x > leafs[i].get_MAX_LEAF_SIZE() || leafs[i].getSize().y > leafs[i].get_MAX_LEAF_SIZE() || (0, 1 * rand() % 11) > 0.25)
                 {
                     if (leafs[i].Split_into_leaves())
                     {
@@ -184,6 +183,15 @@ void Map::create_Map(int width, int height)
 
 void Map::createWalls()
 {
+    //sf::RectangleShape texture_map(sf::Vector2f(75, 75));
+    //texture_map.setTexture(&texture_for_map);
+    //texture_map.setTextureRect(sf::IntRect(0, 0, 64, 64));
+    //for (int i = 0; i < 2160; i += 75) {
+    //    for (int j = 0; j < 1400; j += 75) {
+    //        texture_map.setPosition(i, j);
+    //        map_with_textures.push_back(texture_map);
+    //    }
+    //}
     GameObject wall;
     wall.setSize(30, 30);
     bool flag = true;
@@ -227,7 +235,7 @@ void Map::createTextures()
 sf::Vector2f Map::getRandomCenterRooms() const
 {
     sf::Vector2f center;
-    int k = random1(0, Rooms.size() - 1);
+    int k = randomIntforMap(0, Rooms.size() - 1);
     center.x = Rooms[k].getPosition().x + (Rooms[k].getSize().x) / 2;
     center.y = Rooms[k].getPosition().y + (Rooms[k].getSize().y) / 2;
     return center;

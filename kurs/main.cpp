@@ -26,7 +26,9 @@ int main() {
 
             if (event.type == sf::Event::MouseButtonPressed) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
-                    int btnNumber = form.checkPressed(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y);
+                    sf::Vector2i pixelPos = sf::Mouse::getPosition(window);
+                    sf::Vector2f pos = window.mapPixelToCoords(pixelPos);
+                    int btnNumber = form.checkPressed(pos.x, pos.y);
                     if (btnNumber == 1) {
                         flag = 1;
                         build.login();
@@ -46,7 +48,7 @@ int main() {
         window.clear();
 
         if (flag) {
-           build.menu();
+            build.menu();
         }
 
         window.display();

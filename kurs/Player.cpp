@@ -23,9 +23,9 @@ void Player::setWeapon(Weapon* weapon)
 	this->weapon = weapon;
 }
 
-void Player::Play(std::string dir, float speed, float time, std::vector<GameObject> Walls, sf::View& view)
+void Player::play(std::string dir, float speed, float time,std::vector<GameObject> Walls,sf::View& view)
 {
-	sf::FloatRect spriteBounds(sf::Vector2f(sprite.getPosition().x, sprite.getPosition().y), sf::Vector2f(20, 20));
+	sf::FloatRect spriteBounds(sf::Vector2f(sprite.getPosition().x,sprite.getPosition().y), sf::Vector2f(20, 20));
 
 	if (dir == "Left") {
 		spriteBounds.left -= 18;
@@ -127,7 +127,7 @@ bool Player::collision—heck(std::vector<GameObject> Walls, sf::FloatRect spriteB
 	return false;
 }
 
-void Player::updatePlayer(float time, std::vector<Character*> characters)
+void Player::updatePlayer(float time, std::vector<Character*>& characters)
 {
 	update(time);
 	weapon->update(time, characters);

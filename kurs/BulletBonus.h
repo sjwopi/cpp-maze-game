@@ -4,7 +4,7 @@
 #include "Player.h"
 
 class BulletBonus :
-    public Bonus
+	public Bonus 
 {
 public:
     BulletBonus(std::string pathTexture, sf::Vector2f position) :Bonus(pathTexture, position) {}

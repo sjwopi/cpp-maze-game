@@ -8,11 +8,11 @@ class WeaponBonus :
     public Bonus
 {
 public:
-    WeaponBonus(std::string pathTexture, sf::Vector2f position, Weapon* weapon) :Bonus(pathTexture, position), weapon(weapon) {}
+    WeaponBonus(std::string pathTexture, sf::Vector2f position,Weapon* weapon) :Bonus(pathTexture, position),weapon(weapon) {}
     void apply(Player& player)override {
         if (timeTakingBonus > 200) {
             Weapon* temp = player.getWeapon();
-            pathTexture = player.getPathWeapon();
+            path = player.getPathWeapon();
             player.setWeapon(weapon);
             weapon = temp;
             timeTakingBonus = 0;
@@ -23,9 +23,9 @@ public:
     }
     void draw(sf::RenderWindow& window)override {
         sf::Sprite spriteWeapon;
-        spriteWeapon.setPosition(position);
+        spriteWeapon.setPosition(sf::Vector2f(x,y));
         sf::Texture textureWeapon;
-        textureWeapon.loadFromFile(pathTexture);
+        textureWeapon.loadFromFile(path);
         spriteWeapon.setTexture(textureWeapon);
         window.draw(spriteWeapon);
     }

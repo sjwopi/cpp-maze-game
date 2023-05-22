@@ -10,6 +10,5 @@ class Gun :
 public:
     Gun(std::string path_name) :Weapon(path_name, 10, 8, 30) {}
     bool fire(sf::Vector2f direction, sf::Vector2f coordinatePlayer)override;
-    //void render(sf::RenderWindow& window);
 };
 

@@ -1,7 +1,7 @@
 #include "GhostSpawn.h"
 #include <iostream>
 
-GhostSpawn::GhostSpawn(float x, float y, float w, float h, std::string name) :Character(x, y, w, h)
+GhostSpawn::GhostSpawn(float x, float y, float w, float h, std::string name):Character(x,y,w,h)
 {
     path = name;
     sprite.setPosition(x, y);
@@ -15,9 +15,6 @@ GhostSpawn::GhostSpawn(sf::Vector2f position, sf::Vector2f size, std::string nam
 
 void GhostSpawn::update(float time, Player& player)
 {
-    if (health < 0) {
-        isDead = true;
-    }
     if (!isDead) {
         sf::Vector2f direction = player.getPosition() - sf::Vector2f(x, y);
         float distance = std::sqrt(direction.x * direction.x + direction.y * direction.y);
@@ -34,7 +31,7 @@ void GhostSpawn::update(float time, Player& player)
         }
         for (auto& ghost : ghosts) {
             ghost.update(time, player);
-            if (ghost.getSprite().getGlobalBounds().intersects(characterBounds)) {
+            if (ghost.getGlobalBounds().intersects(characterBounds)) {
                 ghosts.erase(std::remove(ghosts.begin(), ghosts.end(), ghost), ghosts.end());
                 if (!player.getHaveShield())
                     player.reduceHealth(ghost.getDamage());

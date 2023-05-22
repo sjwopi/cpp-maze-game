@@ -12,26 +12,29 @@
 #include "Machine.h"
 #include "GhostSpawn.h"
 #include "Mine.h"
+#include "Portal.h"
+
 class allObjectsInTheGame
 {
 public:
-	allObjectsInTheGame(sf::RenderWindow& window, int widthMap, int heightMap, int countTurels, int countGhostspawns, int countHealthBonuses, int countBulletsBonuses, int countShieldBonuses, int countMines);
+	allObjectsInTheGame() {}
+	void ñreate(sf::RenderWindow& window, int widthMap, int heightMap, int countTurels, int countGhostspawns, int countHealthBonuses, int countBulletsBonuses, int countShieldBonuses,int countMines);
 	Map* getMap() { return map; }
-	Player* getPlayer() { return hero; }
 	Gun* getGun() { return gun; }
-	Machine* getMachine() { return machine; }
+	Portal* getPortal() { return portal; }
+	Machine* getMachine(){ return machine; }
 	WeaponBonus* getWeaponBonus() { return weaponBonus; }
 	std::vector<Bonus*>& getAllBonuses() { return allBonuses; }
 	std::vector<Mine*>& getMines() { return mines; }
-	std::vector<Character*>& getCharacters() { return characters; }
+	std::vector<Character*>& getCharacters(){ return characters; }
 	std::vector<Turel*>& getTurels() { return turels; }
 	std::vector<GhostSpawn*>& getGhostspawns() { return ghostspawns; }
 	std::vector<Character*>& getGhosts() { return ghosts; }
 	statusBar* getStatusbar() { return statusbar; }
 	~allObjectsInTheGame();
 private:
+	Portal* portal;
 	Map* map;
-	Player* hero;
 	Gun* gun;
 	Machine* machine;
 	WeaponBonus* weaponBonus;
@@ -44,3 +47,4 @@ private:
 	statusBar* statusbar;
 	sf::RenderWindow* window;
 };
+

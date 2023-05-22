@@ -6,10 +6,10 @@
 
 void Turel::Rotation(sf::Vector2f pos)
 {
-    float Rx = pos.x - x;
-    float Ry = pos.y - y;
-    float rotation = (atan2(Rx, Ry)) * 180 / 3.14159265;
-    sprite.setRotation(-rotation);
+		float Rx = pos.x - x;
+		float Ry = pos.y - y;
+		float rotation = (atan2(Rx, Ry)) * 180 / 3.14159265;
+		sprite.setRotation(-rotation);
 }
 
 Turel::Turel(float x, float y, float w, float h, std::vector<GameObject> Walls, std::string name) :Character(x, y, w, h), Weapon(name, 6, 20, 30000)
@@ -22,7 +22,6 @@ Turel::Turel(float x, float y, float w, float h, std::vector<GameObject> Walls, 
     setWalls(wallsAroundTheTurret);
     setSpriteLoadFromFile(name);
     sprite.setTextureRect(sf::IntRect(30, 41, -30, -41));
-    //setColor(170, 170, 170);
     sprite.setOrigin(w / 2, h / 2);
 }
 
@@ -36,7 +35,6 @@ Turel::Turel(sf::Vector2f position, sf::Vector2f size, std::vector<GameObject> W
     setWalls(wallsAroundTheTurret);
     setSpriteLoadFromFile(Weapon::path);
     sprite.setTextureRect(sf::IntRect(30, 41, -30, -41));
-    //setColor(170, 170, 170);
     sprite.setOrigin(size.x / 2, size.y / 2);
 }
 
@@ -76,7 +74,6 @@ bool Turel::fire(sf::Vector2f direction, sf::Vector2f coordinatePlayer)
             sf::Vector2f aimDirNorm = (direction - coordinatePlayer) / (float)sqrt(pow((coordinatePlayer - direction).x - 20, 2) + pow((coordinatePlayer - direction).y - 20, 2));
             Bullet bullet(aimDirNorm, coordinatePlayer, 2);
 
-
             Bandolier.push_back(bullet);
             --currentBullets;
             fireTimer = 0.f;
@@ -94,8 +91,6 @@ void Turel::update(float time, Player& player)
 {
     sf::FloatRect characterBounds(player.getPosition(), player.getSize());
     fireTimer += time;
-    if (health < 0)
-        isDead = true;
     if (!isDead) {
         for (auto& bullet : Bandolier) {
             bullet.update(time);
@@ -119,3 +114,8 @@ void Turel::update(float time, Player& player)
         }
     }
 }
+
+
+
+
+

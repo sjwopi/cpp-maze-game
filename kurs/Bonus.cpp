@@ -1,20 +1,15 @@
 #include "Bonus.h"
 
-Bonus::Bonus(std::string pathTexture, sf::Vector2f position) :pathTexture(pathTexture), position(position)
+Bonus::Bonus(std::string pathTexture, sf::Vector2f position) :GameObject(position, sf::Vector2f(25, 25))
 {
+	path = pathTexture;
 	sprite.setPosition(position);
 }
 
 void Bonus::draw(sf::RenderWindow& window)
 {
 	sf::Texture texture;
-	texture.loadFromFile(pathTexture);
+	texture.loadFromFile(path);
 	sprite.setTexture(texture);
 	window.draw(sprite);
-}
-
-void Bonus::setPosition(sf::Vector2f position)
-{
-	this->position = position;
-	sprite.setPosition(position);
 }

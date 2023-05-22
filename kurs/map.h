@@ -22,11 +22,11 @@ private:
 public:
     Map(int width, int height) :width(width), height(height) { create_Map(width, height); createWalls(); createTextures(); }
     Map() {}
-    std::vector<GameObject> GetAll_Objects_On_The_Map()const { return allObjectsOnTheMap; }
-    std::vector<GameObject> GetHalls() const { return halls; }
-    std::vector<GameObject> GetRooms() const { return Rooms; }
-    std::vector<GameObject> GetWalls() const { return Walls; }
-    std::vector<sf::Sprite> GetMapWithTextures() { return mapWithTextures; }
+    std::vector<GameObject> getAll_Objects_On_The_Map()const { return allObjectsOnTheMap; }
+    std::vector<GameObject> getHalls() const{ return halls; }
+    std::vector<GameObject> getRooms() const{ return Rooms; }
+    std::vector<GameObject> getWalls() const { return Walls; }
+    std::vector<sf::Sprite> getMapWithTextures() { return mapWithTextures; }
 
     sf::Vector2f getRandomCenterRooms()const;
 

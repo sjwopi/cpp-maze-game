@@ -15,6 +15,6 @@ public:
 	void update(float time, Player&);
 	void draw(sf::RenderWindow& window);
 	std::vector<Ghost>& getGhosts() { return ghosts; }
-	void setAttackRange(float attackRange) { this->attackRange = attackRange; }
+	void setAttackRange(float attackRange) {this->attackRange = attackRange;}
 };
 

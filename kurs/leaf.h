@@ -9,11 +9,10 @@ public:
     Leaf* leftChild = nullptr;
     Leaf* rightChild = nullptr;
     bool Split_into_leaves();//Разбиение на листья
-    void CreateRoom();//Создание комнат
-    GameObject room;//Комната внутри этого листа
-    int Get_MIN_LEAF_SIZE() { return MIN_LEAF_SIZE; }
-    int Get_MAX_LEAF_SIZE() { return MAX_LEAF_SIZE; }
-    ~Leaf() {}
+	void CreateRoom();//Создание комнат
+	GameObject room;//Комната внутри этого листа
+    int get_MIN_LEAF_SIZE() { return MIN_LEAF_SIZE; }
+    int get_MAX_LEAF_SIZE() { return MAX_LEAF_SIZE; }
 private:
     int const MIN_LEAF_SIZE = 175; //минимальный размер листа(175)
     int const MAX_LEAF_SIZE = 250; //максимальный размер листа(250)

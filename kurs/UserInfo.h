@@ -1,8 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-class UserInfo
+struct UserInfo
 {
-public:
 	std::string nick;
 	int countWin;
 	int countGame;

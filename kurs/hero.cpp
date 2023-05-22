@@ -35,6 +35,16 @@ void Hero::Move(std::string dir, float speed, float time)
 }
 sf::RectangleShape Hero::Check_for_colic(std::vector<sf::RectangleShape> Walls, sf::FloatRect spriteBounds)
 {
+	//sf::FloatRect spriteBounds = sprite.getGlobalBounds();
+	//if (dir == "Left")
+	//	spriteBounds.left -= 3.2;
+	//else if (dir == "Right")
+	//	spriteBounds.width += 4.7;
+	//else if (dir == "Up")
+	//	spriteBounds.top -= 4;
+	//else
+	//	spriteBounds.height += 4;
+
 	sf::RectangleShape kolizion(sf::Vector2f(30, 30));
 	kolizion.setPosition(-100, 0);
 	sf::FloatRect wall;

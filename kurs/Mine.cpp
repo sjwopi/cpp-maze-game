@@ -11,13 +11,13 @@ void Mine::explosion(float time, Player& player)
 			player.reduceHealth(damage);
 		isExploded = true;
 	}
-	if (isExploded)
+	if(isExploded)
 		this->time -= time;
 }
 
 void Mine::draw(sf::RenderWindow& window)
 {
-	if (!isExploded)
+	if(!isExploded)
 		window.draw(sprite);
 	else if (time > 0) {
 		sf::Sprite sprite;
@@ -28,3 +28,4 @@ void Mine::draw(sf::RenderWindow& window)
 		window.draw(sprite);
 	}
 }
+

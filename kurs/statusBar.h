@@ -23,6 +23,7 @@ private:
     sf::Text shieldHealthText;
     sf::Text weaponText;
     sf::Text healthText;
+    sf::Text levelText;
 
     int playerHealth = 100;
     int bandolierSize = 0;
@@ -33,20 +34,21 @@ private:
 public:
     statusBar(sf::RenderWindow& window, std::string nameTextureHealthIcon, std::string nameTextureWeaponIcon, std::string nameTextureShieldIcon, sf::Vector2f positionPlayer, sf::Vector2f sizeWindow);
 
-    void setPlayerHealth(int health) {
-        playerHealth = health;
+    void setPlayerHealth(int health) { 
+        playerHealth = health; 
         healthText.setString(std::to_string(playerHealth));
     }
-    void setBandolierSize(int bandolierSize) { this->bandolierSize = bandolierSize; }
-    void setCurrentBullets(int currentBullets) {
-        this->currentBullets = currentBullets;
+    void setBandolierSize(int bandolierSize) { this->bandolierSize= bandolierSize; }
+    void setCurrentBullets(int currentBullets) { 
+        this->currentBullets = currentBullets; 
         weaponText.setString(std::to_string(currentBullets) + "/" + std::to_string(bandolierSize));
     }
-    void setNameTextureWeaponIcon(std::string nameTextureWeaponIcon) { this->nameTextureWeaponIcon = nameTextureWeaponIcon; }
+    void setNameTextureWeaponIcon(std::string nameTextureWeaponIcon) {this->nameTextureWeaponIcon = nameTextureWeaponIcon;}
     void setHealthShield(int healthShield) {
         this->healthShield = healthShield;
         shieldHealthText.setString(std::to_string(this->healthShield));
     }
+    void setLevel(int level) { levelText.setString("Level " + std::to_string(level)); }
 
     void draw(sf::RenderWindow& window);
 

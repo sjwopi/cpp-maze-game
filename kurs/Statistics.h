@@ -12,4 +12,3 @@ public:
 
 	std::vector<UserInfo> userInfo;
 };
-

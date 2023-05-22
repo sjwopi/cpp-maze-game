@@ -1,5 +1,5 @@
 #include "leaf.h"
-int random2(int min, int max) {
+int randomIntforLeaf(int min, int max) {
     return (min + (rand() % (max - min + 1)));
 }
 //Разбиение на листья
@@ -44,12 +44,12 @@ void Leaf::CreateRoom()
     else
     {
         // этот лист готов к созданию комнаты
-        int Size_Room_width = random2(90, width - 70);
-        int Size_Room_heigth = random2(90, height - 70);
+        int Size_Room_width = randomIntforLeaf(90, width - 70);
+        int Size_Room_heigth = randomIntforLeaf(90, height - 70);
         // располагаем комнату внутри листа, но не помещаем её прямо 
         // рядом со стороной листа (иначе комнаты сольются)
-        int Room_pos_x = random2(30, width - Size_Room_width - 30);
-        int Room_pos_y = random2(30, height - Size_Room_heigth - 30);
+        int Room_pos_x = randomIntforLeaf(30, width - Size_Room_width - 30);
+        int Room_pos_y = randomIntforLeaf(30, height - Size_Room_heigth - 30);
         Room_pos_x += x;
         Room_pos_y += y;
         room.setPosition(Room_pos_x, Room_pos_y);

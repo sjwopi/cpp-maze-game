@@ -10,13 +10,13 @@ private:
     float maxspeed = 1.8;
 public:
     sf::CircleShape& getShape() { return shape; }
-    Bullet(sf::Vector2f direction, sf::Vector2f coordinatePlayer, float maxspeed, float radius = 1.8) :direction(direction), maxspeed(maxspeed) {
+    Bullet(sf::Vector2f direction,sf::Vector2f coordinatePlayer,float maxspeed, float radius = 1.8) :direction(direction), maxspeed(maxspeed) {
         shape.setRadius(radius);
         shape.setOrigin(radius, radius);
         shape.setPosition(coordinatePlayer);
         shape.setFillColor(sf::Color(sf::Color::Black));
     }
-    void update(float time) { shape.move(direction * maxspeed * time); }
+    void update(float time) { shape.move(direction * maxspeed * time);}
     void draw(sf::RenderWindow* window) {
         window->draw(shape);
     }

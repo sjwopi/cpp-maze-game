@@ -77,10 +77,12 @@ void Form::drawLogin(std::string nick) {
 	}
 
 	sf::Mouse mouse;
-	if (btn[0].getGlobalBounds().contains(mouse.getPosition().x, mouse.getPosition().y)) {
+	sf::Vector2i pixelPos = sf::Mouse::getPosition(*window);
+	sf::Vector2f pos = window->mapPixelToCoords(pixelPos);
+	if (btn[0].getGlobalBounds().contains(pos.x, pos.y)) {
 		(*window).draw(btn[0]);
 	}
-	if (btn[1].getGlobalBounds().contains(mouse.getPosition().x, mouse.getPosition().y)) {
+	if (btn[1].getGlobalBounds().contains(pos.x, pos.y)) {
 		(*window).draw(btn[1]);
 	}
 
@@ -105,21 +107,25 @@ void Form::drawMenu() {
 	(*window).draw(text[2]);
 
 	sf::Mouse mouse;
-	if (btn[0].getGlobalBounds().contains(mouse.getPosition().x, mouse.getPosition().y)) {
+	sf::Vector2i pixelPos = sf::Mouse::getPosition(*window);
+	sf::Vector2f pos = window->mapPixelToCoords(pixelPos);
+	if (btn[0].getGlobalBounds().contains(pos.x, pos.y)) {
 		(*window).draw(btn[0]);
 	}
-	else if (btn[1].getGlobalBounds().contains(mouse.getPosition().x, mouse.getPosition().y)) {
+	else if (btn[1].getGlobalBounds().contains(pos.x, pos.y)) {
 		(*window).draw(btn[1]);
 	}
-	else if (btn[2].getGlobalBounds().contains(mouse.getPosition().x, mouse.getPosition().y)) {
+	else if (btn[2].getGlobalBounds().contains(pos.x, pos.y)) {
 		(*window).draw(btn[2]);
 	}
 }
 
-void Form::drawSettings() {
+void Form::drawSettings(int difficult) {
 	(*window).clear();
 
 	(*window).draw(fon);
+
+	text[difficult - 1].setFillColor(sf::Color::Red);
 
 	text[0].setString("Easy");
 	text[0].setPosition(btn[0].getPosition().x + 110, btn[0].getPosition().y + 13);
@@ -134,15 +140,50 @@ void Form::drawSettings() {
 	(*window).draw(text[2]);
 
 	text[3].setString("Choose the difficulty of the game");
-	text[3].setPosition(400, 200);
+	text[3].setPosition(600, 110);
 	(*window).draw(text[3]);
-
+	text[difficult-1].setFillColor(sf::Color(sf::Color::White));
 	sf::Mouse mouse;
-	if (btn[0].getGlobalBounds().contains(mouse.getPosition().x, mouse.getPosition().y)) {
+	sf::Vector2i pixelPos = sf::Mouse::getPosition(*window);
+	sf::Vector2f pos = window->mapPixelToCoords(pixelPos);
+	if (btn[0].getGlobalBounds().contains(pos.x,pos.y)) {
 		(*window).draw(btn[0]);
-	} else if (btn[1].getGlobalBounds().contains(mouse.getPosition().x, mouse.getPosition().y)) {
+	} else if (btn[1].getGlobalBounds().contains(pos.x, pos.y)) {
 		(*window).draw(btn[1]);
-	} else if (btn[2].getGlobalBounds().contains(mouse.getPosition().x, mouse.getPosition().y)) {
+	} else if (btn[2].getGlobalBounds().contains(pos.x, pos.y)) {
 		(*window).draw(btn[2]);
 	}
+}
+
+void Form::drawEndLevel(bool typeEnd) {
+	(*window).clear();
+
+	(*window).draw(fon);
+
+	text[2].setString("Menu");
+	text[2].setFillColor(sf::Color::White);
+	(*window).draw(text[2]);
+
+	if (typeEnd) {
+		text[0].setString("You win");
+		text[0].setPosition(btn[0].getPosition().x - 20, btn[0].getPosition().y - 120);
+		text[0].setFillColor(sf::Color::Green);
+	}
+	else {
+		text[0].setString("GameOver");
+		text[0].setPosition(btn[0].getPosition().x - 70, btn[0].getPosition().y - 120);
+		text[0].setFillColor(sf::Color::Red);
+	}
+	text[0].setCharacterSize(80);
+
+	(*window).draw(text[0]);
+
+	sf::Vector2i pixelPos = sf::Mouse::getPosition(*window);
+	sf::Vector2f pos = window->mapPixelToCoords(pixelPos);
+	if (btn[2].getGlobalBounds().contains(pos.x, pos.y)) {
+		(*window).draw(btn[2]);
+	}
+	text[0].setFillColor(sf::Color::White);
+	text[0].setPosition(btn[0].getPosition().x, btn[0].getPosition().y - 120);
+	text[0].setCharacterSize(40);
 }

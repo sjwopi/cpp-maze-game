@@ -12,7 +12,7 @@ public:
     void apply(Player& player)override {
         if (player.getHealth() + 50 > 100)
             player.setHealth(100);
-        else
+        else 
             player.setHealth(player.getHealth() + 50);
         taken = true;
     }

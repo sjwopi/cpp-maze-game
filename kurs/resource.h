@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by kurs.rc
+// Used by pavu.rc
 
 // Следующие стандартные значения для новых объектов
 // 
